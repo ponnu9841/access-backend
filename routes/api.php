@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PartnerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,31 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-// // client routes
-// Route::post('/register', [AuthController::class, 'register']);
-// Route::post('/login', [AuthController::class, 'login']);
-
-// // admin routes
-
-
-
-
-// logged in routes
-Route::group(['prefix' => 'admin'], function () {
-
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::delete('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'user']);
-    Route::get('/refresh', [AuthController::class, 'refresh']);
-    Route::middleware('admin')->group(function () {
- 
-    });
+//admin routes
+Route::middleware('admin')->group(function () {
+    Route::post('/partner', [PartnerController::class, 'createPartner']);
+    Route::delete('/partner', [PartnerController::class, 'deletePartner']);
 });
-
+Route::get('/partner', [PartnerController::class, 'getPartner']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::delete('/logout', [AuthController::class, 'logout']);

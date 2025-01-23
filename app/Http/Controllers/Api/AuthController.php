@@ -79,7 +79,6 @@ class AuthController extends Controller
     {
         Auth::logout();
         return response()->json([
-            'status' => 'success',
             'message' => 'Successfully logged out',
         ]);
     }
@@ -87,7 +86,6 @@ class AuthController extends Controller
     public function refresh()
     {
         return response()->json([
-            'status' => 'success',
             'user' => Auth::user(),
             'token' => $this->respondWithToken(auth()->refresh())
         ]);

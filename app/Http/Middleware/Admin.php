@@ -17,13 +17,12 @@ class Admin extends Middleware
     public function handle($request, Closure $next, ...$guards): Response
     {
 
-        if (Auth()->user()->usertype == 'admin') {
+        if (Auth()->user()->type == 'admin') {
 
             $this->authenticate($request, $guards);
             return $next($request);
         } else {
             return response([
-                'status' => false,
                 'message' => "You are not authorized"
             ], 401);
         }
