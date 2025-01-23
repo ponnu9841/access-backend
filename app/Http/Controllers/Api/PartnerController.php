@@ -40,7 +40,8 @@ class PartnerController extends Controller
                 $destPath = public_path() . '/uploads/partners/' . date("Y");
 
                 $image->move($destPath, $imageName);
-                $partner->image = asset('uploads/partners/' . date('Y') . '/' . $imageName);
+                $baseUrl = env('APP_URL');
+                $partner->image = $baseUrl.'/uploads/partners/' . date('Y') . '/' . $imageName;
             }
 
             $partner->save();
