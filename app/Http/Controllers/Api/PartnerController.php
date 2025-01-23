@@ -6,14 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Partner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Services\FileDeleteService;
+use App\Services\FileService;
+use Illuminate\Support\Facades\Validator;
 
 class PartnerController extends Controller
 {
     protected $fileDeleteService;
-    public function __construct(FileDeleteService $fileDeleteService)
+    public function __construct(FileService $fileService)
     {
-        $this->fileDeleteService = $fileDeleteService;
+        $this->fileDeleteService = $fileService;
         $this->middleware('auth:api', ['except' => ['getPartner']]);
     }
     public function getPartner(request $request)
@@ -30,6 +31,16 @@ class PartnerController extends Controller
         try {
             $partner = new Partner();
             $partner->alt = $request->alt;
+            $validator = Validator::make($request->all(), [
+                'image' => 'required',
+            ]);
+
+            if (!$validator->passes()) {
+                return response([
+                    'message' => "Invalid Request",
+                    'errors' => $validator->errors()
+                ], 404);
+            }
 
             if ($request->hasFile('image')) {
 
@@ -41,7 +52,7 @@ class PartnerController extends Controller
 
                 $image->move($destPath, $imageName);
                 $baseUrl = env('APP_URL');
-                $partner->image = $baseUrl.'/uploads/partners/' . date('Y') . '/' . $imageName;
+                $partner->image = $baseUrl . '/uploads/partners/' . date('Y') . '/' . $imageName;
             }
 
             $partner->save();

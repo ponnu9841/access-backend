@@ -53,7 +53,7 @@ class AuthController extends Controller
             return response([
                 'status' => false,
                 'errors' => $validator->errors()
-            ], 203);
+            ], 404);
         }
     }
 

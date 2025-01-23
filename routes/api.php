@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PartnerController;
+use App\Http\Controllers\Api\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,12 +20,18 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('admin')->group(function () {
     Route::post('/partner', [PartnerController::class, 'createPartner']);
     Route::delete('/partner', [PartnerController::class, 'deletePartner']);
+
+    //service
+    Route::post('/service', [ServiceController::class, 'createService']);
+    Route::delete('/service', [ServiceController::class, 'deleteService']);
 });
-Route::get('/partner', [PartnerController::class, 'getPartner']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::delete('/logout', [AuthController::class, 'logout']);
 Route::get('/user', [AuthController::class, 'user']);
+
+Route::get('/partner', [PartnerController::class, 'getPartner']);
+Route::get('/service', [ServiceController::class, 'getService']);
 
 
 
