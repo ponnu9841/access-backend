@@ -64,7 +64,7 @@ class AuthController extends Controller
         if (!$token) {
             return response([
                 'message' => "Invalid Credentials"
-            ], 203);
+            ], 401);
         }
 
         $user = Auth::user();
