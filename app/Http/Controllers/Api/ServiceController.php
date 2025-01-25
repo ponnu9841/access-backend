@@ -22,10 +22,16 @@ class ServiceController extends Controller
 
     public function getService(request $request)
     {
-        $service = Service::orderBy('created_at', 'desc')->get();
+        $services = Service::orderBy('created_at', 'desc')->get();
+        // Decode the descriptions
+        $services->transform(function ($service) {
+            $service->short_description = htmlspecialchars_decode($service->short_description, ENT_QUOTES);
+            $service->long_description = htmlspecialchars_decode($service->long_description, ENT_QUOTES);
+            return $service;
+        });
 
         return response([
-            'data' => $service
+            'data' => $services
         ]);
     }
 
@@ -34,6 +40,7 @@ class ServiceController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'title' => 'required|string',
+                'image' => 'required',
                 'alt' => 'string',
                 'short_description' => 'string',
                 'long_description' => 'string',
