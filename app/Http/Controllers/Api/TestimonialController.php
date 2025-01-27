@@ -15,7 +15,7 @@ class TestimonialController extends Controller
     public function __construct(FileService $fileService)
     {
         $this->fileService = $fileService;
-        $this->middleware('auth:api', ['except' => ['getService']]);
+        $this->middleware('auth:api', ['except' => ['getTestimonial']]);
         $this->folderName = 'testimonials';
     }
 

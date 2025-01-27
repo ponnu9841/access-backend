@@ -3,38 +3,47 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Partner;
+use App\Models\Gallery;
+use App\Services\FileService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Services\FileService;
 use Illuminate\Support\Facades\Validator;
 
-class PartnerController extends Controller
+class GalleryController extends Controller
 {
     protected $fileService;
     protected $folderName;
     public function __construct(FileService $fileService)
     {
         $this->fileService = $fileService;
-        $this->middleware('auth:api', ['except' => ['getPartner']]);
-        $this->folderName = 'partners';
+        $this->middleware('auth:api', ['except' => ['getGallery']]);
+        $this->folderName = 'gallery';
     }
-    public function getPartner(request $request)
+    public function getGallery(request $request)
     {
-        $partner = Partner::orderBy('created_at', 'desc')->get();
+        $pageSize = 9;
+        if ($request->has('page_size')) {
+            $pageSize = $request->page_size;
+        }
+        $gallery = Gallery::orderBy('created_at', 'desc')->paginate($pageSize);
 
         return response([
-            'data' => $partner
+            'data' => $gallery
         ]);
     }
 
-    public function createPartner(Request $request)
+    public function createGallery(Request $request)
     {
         try {
-            $partner = new Partner();
-            $partner->alt = $request->alt;
+            $gallery = new Gallery();
+            $gallery->alt = $request->alt;
+            $gallery->title = $request->title;
+            $gallery->description = $request->description;
             $validator = Validator::make($request->all(), [
                 'image' => 'required',
+                'alt' => 'nullable|string',
+                'title' => 'nullable|string',
+                'description' => 'nullable|string',
             ]);
 
             if (!$validator->passes()) {
@@ -44,39 +53,41 @@ class PartnerController extends Controller
                 ], 404);
             }
 
+
             if ($request->hasFile('image')) {
                 $uploadedPath = $this->fileService->uploadFile($request->file('image'), $this->folderName);
-                $partner->image = $uploadedPath;
+                $gallery->image = $uploadedPath;
             }
 
-            $partner->save();
+            $gallery->save();
 
 
             return response([
-                'message' => 'Partner Added Successfully',
-                'data' => $partner,
+                'message' => 'Gallery Added Successfully',
+                'data' => $gallery,
             ]);
         } catch (\Throwable $th) {
             //throw $th;
             return response([
                 'status' => false,
-                'message' => $th
+                'error' => $th->getMessage(), // Include the error message
+                'trace' => config('app.debug') ? $th->getTrace() : null, // Include trace only in debug mode
             ], 500);
         }
     }
 
-    public function deletePartner(Request $request)
+    public function deleteGallery(Request $request)
     {
         try {
             //code...
             $id = $request->id;
             $image = $request->image;
-            Partner::where('id', $id)->delete();
+            Gallery::where('id', $id)->delete();
 
-            $this->fileService->deleteFile($image, 'partners');
+            $this->fileService->deleteFile($image, $this->folderName);
 
             return response([
-                'message' => 'Partner Deleted Successfully'
+                'message' => 'Gallery Deleted Successfully'
             ]);
         } catch (\Throwable $th) {
             //throw $th;
