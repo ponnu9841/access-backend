@@ -20,19 +20,8 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = [
-        'password',
+        'password', 'created_at', 'updated_at'
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            if (empty($model->id)) {
-                $model->id = (string) Str::uuid();
-            }
-        });
-    }
 
     public function getJWTIdentifier()
     {

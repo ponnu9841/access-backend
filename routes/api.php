@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\PartnerController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\TestimonialController;
@@ -29,6 +30,10 @@ Route::middleware('admin')->group(function () {
     //testimonial
     Route::post('/testimonial', [TestimonialController::class, 'createTestimonial']);
     Route::delete('/testimonial', [TestimonialController::class, 'deleteTestimonial']);
+
+    //gallery
+    Route::post('/gallery', [GalleryController::class, 'createGallery']);
+    Route::delete('/gallery', [GalleryController::class, 'deleteGallery']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -38,6 +43,7 @@ Route::get('/user', [AuthController::class, 'user']);
 Route::get('/partner', [PartnerController::class, 'getPartner']);
 Route::get('/service', [ServiceController::class, 'getService']);
 Route::get('/testimonial', [TestimonialController::class, 'getTestimonial']);
+Route::get('/gallery', [GalleryController::class, 'getGallery']);
 
 
 

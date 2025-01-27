@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Traits\HasUuidsAndHiddenTimestamps;
 use Illuminate\Database\Eloquent\Model;
 
-class Testimonial extends Model
+class Gallery extends Model
 {
     use HasUuidsAndHiddenTimestamps;
 }

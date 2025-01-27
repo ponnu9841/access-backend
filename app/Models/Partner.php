@@ -2,12 +2,10 @@
 
 namespace App\Models;
 use App\Models\Base;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\HasUuidsAndHiddenTimestamps;
+use Illuminate\Database\Eloquent\Model;
 
-class Partner extends Base
+class Partner extends Model
 {
-    use HasFactory;
-    
-     // Hide timestamps when retrieving data
-     protected $hidden = ['created_at', 'updated_at'];
+    use HasUuidsAndHiddenTimestamps;
 }
