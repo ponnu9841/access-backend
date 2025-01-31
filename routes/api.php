@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\PartnerController;
 use App\Http\Controllers\Api\ServiceController;
+use App\Http\Controllers\Api\TeamsController;
 use App\Http\Controllers\Api\TestimonialController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,10 @@ Route::middleware('admin')->group(function () {
     //gallery
     Route::post('/gallery', [GalleryController::class, 'createGallery']);
     Route::delete('/gallery', [GalleryController::class, 'deleteGallery']);
+
+    //teams
+    Route::post('/teams', [TeamsController::class, 'createTeam']);
+    Route::delete('/teams', [TeamsController::class, 'deleteTeam']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -44,6 +49,7 @@ Route::get('/partner', [PartnerController::class, 'getPartner']);
 Route::get('/service', [ServiceController::class, 'getService']);
 Route::get('/testimonial', [TestimonialController::class, 'getTestimonial']);
 Route::get('/gallery', [GalleryController::class, 'getGallery']);
+Route::get('/teams', [TeamsController::class, 'getTeams']);
 
 
 

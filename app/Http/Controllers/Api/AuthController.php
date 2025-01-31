@@ -22,7 +22,9 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             $user = Auth::user();
-            return response($user, 200);
+            return response([
+                'data' => $user,
+            ], 200);
         } else {
             return response([
                 'message' => 'Unauthorized'
