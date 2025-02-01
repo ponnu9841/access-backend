@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\PartnerController;
 use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\TeamsController;
 use App\Http\Controllers\Api\TestimonialController;
+use App\Http\Controllers\Api\BannerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,10 @@ Route::middleware('admin')->group(function () {
     //teams
     Route::post('/teams', [TeamsController::class, 'createTeam']);
     Route::delete('/teams', [TeamsController::class, 'deleteTeam']);
+
+    //banner
+    Route::post('/banner', [BannerController::class, 'createBanner']);
+    Route::delete('/banner', [BannerController::class, 'deleteBanner']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -50,6 +55,7 @@ Route::get('/service', [ServiceController::class, 'getService']);
 Route::get('/testimonial', [TestimonialController::class, 'getTestimonial']);
 Route::get('/gallery', [GalleryController::class, 'getGallery']);
 Route::get('/teams', [TeamsController::class, 'getTeams']);
+Route::get('/banner', [BannerController::class, 'getBanner']);
 
 
 
