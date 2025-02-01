@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ServiceController;
 use App\Http\Controllers\Api\TeamsController;
 use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\BannerController;
+use App\Http\Controllers\Api\ContactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +45,10 @@ Route::middleware('admin')->group(function () {
     //banner
     Route::post('/banner', [BannerController::class, 'createBanner']);
     Route::delete('/banner', [BannerController::class, 'deleteBanner']);
+
+    //contact
+    Route::post('/contact', [ContactController::class, 'createContact']);
+    Route::put('/contact', [ContactController::class, 'updateContact']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -56,10 +61,4 @@ Route::get('/testimonial', [TestimonialController::class, 'getTestimonial']);
 Route::get('/gallery', [GalleryController::class, 'getGallery']);
 Route::get('/teams', [TeamsController::class, 'getTeams']);
 Route::get('/banner', [BannerController::class, 'getBanner']);
-
-
-
-// Route::post('/logout', [AuthController::class, 'logout']);
-// Route::get('/getUser/{id}', [UserController::class, 'update']);
-
-// Route::apiResource('/users', UserController::class);
+Route::get('/contact', [ContactController::class, 'getContact']);
