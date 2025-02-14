@@ -57,6 +57,7 @@ Route::get('/user', [AuthController::class, 'user']);
 
 Route::get('/partner', [PartnerController::class, 'getPartner']);
 Route::get('/service', [ServiceController::class, 'getService']);
+Route::get('/service/{id}', [ServiceController::class, 'getServiceDetail']);
 Route::get('/testimonial', [TestimonialController::class, 'getTestimonial']);
 Route::get('/gallery', [GalleryController::class, 'getGallery']);
 Route::get('/teams', [TeamsController::class, 'getTeams']);
