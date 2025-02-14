@@ -16,11 +16,11 @@ class ServiceController extends Controller
     public function __construct(FileService $fileService)
     {
         $this->fileService = $fileService;
-        $this->middleware('auth:api', ['except' => ['getService']]);
+        $this->middleware('auth:api', ['except' => ['getService', 'getServiceDetail']]);
         $this->folderName = 'services';
     }
 
-    public function getService(request $request)
+    public function getService(Request $request)
     {
         $services = Service::orderBy('created_at', 'desc')->get();
         // Decode the descriptions
@@ -32,6 +32,20 @@ class ServiceController extends Controller
 
         return response([
             'data' => $services
+        ]);
+    }
+
+    public function getServiceDetail(Request $request) {
+        $id = $request->id;
+        $service = Service::where('id', $id)->first();
+
+        if ($service) {
+            $service->short_description = htmlspecialchars_decode($service->short_description, ENT_QUOTES);
+            $service->long_description = htmlspecialchars_decode($service->long_description, ENT_QUOTES);
+        }
+
+        return response([
+            'data' => $service
         ]);
     }
 
