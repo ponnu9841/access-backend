@@ -64,7 +64,7 @@ class TestimonialController extends Controller
 
 
             return response([
-                'message' => 'Partner Added Successfully',
+                'message' => 'Testimonial Added Successfully',
                 'data' => $testimonial,
             ]);
         } catch (\Throwable $th) {
@@ -72,6 +72,48 @@ class TestimonialController extends Controller
             return response([
                 'status' => false,
                 'message' => $th
+            ], 500);
+        }
+    }
+
+    public function updateTestimonial(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'id' => 'required|string',
+                'name' => 'required|string|min:3',
+                'testimonial' => 'required|string|min:3',
+            ]);
+            if (!$validator->passes()) {
+                return response([
+                    'message' => 'Invalid Request',
+                    'errors' => $validator->errors()
+                ], 404);
+            }
+            $testimonial = Testimonial::find($request->id);
+            $testimonial->vido_url = $request->url;
+            $testimonial->name = $request->name;
+            $testimonial->designation = $request->designation;
+            $testimonial->alt = $request->alt;
+            $testimonial->testimonial = htmlspecialchars($request->testimonial, ENT_QUOTES);
+
+            if ($request->hasFile('image')) {
+                $this->fileService->deleteFile($testimonial->image, $this->folderName);
+                $uploadedPath = $this->fileService->uploadFile($request->file('image'), $this->folderName);
+                $testimonial->image = $uploadedPath;
+            }
+
+            $testimonial->save();
+
+            return response([
+                'message' => 'Testimonial Updated Successfully',
+                'data' => $testimonial,
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response([
+                'status' => false,
+                'message' => $th->getMessage()
             ], 500);
         }
     }
