@@ -65,6 +65,44 @@ class PartnerController extends Controller
         }
     }
 
+    public function updatePartner(Request $request)
+    {
+        try {
+            $partner = Partner::find($request->id);
+            $partner->alt = $request->alt;
+            $validator = Validator::make($request->all(), [
+                'id' => 'required|string',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            ]);
+
+            if (!$validator->passes()) {
+                return response([
+                    'message' => "Invalid Request",
+                    'errors' => $validator->errors()
+                ], 404);
+            }
+
+            if ($request->hasFile('image')) {
+                $this->fileService->deleteFile($partner->image, $this->folderName);
+                $uploadedPath = $this->fileService->uploadFile($request->file('image'), $this->folderName);
+                $partner->image = $uploadedPath;
+            }
+
+            $partner->save();
+
+            return response([
+                'message' => 'Partner Added Successfully',
+                'data' => $partner,
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response([
+                'status' => false,
+                'message' => $th
+            ], 500);
+        }
+    }
+
     public function deletePartner(Request $request)
     {
         try {

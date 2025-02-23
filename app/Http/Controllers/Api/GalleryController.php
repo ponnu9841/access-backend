@@ -76,6 +76,50 @@ class GalleryController extends Controller
         }
     }
 
+    public function updateGallery(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+                'alt' => 'string',
+                'title' => 'string',
+                'description' => 'string',
+            ]);
+
+            if (!$validator->passes()) {
+                return response([
+                    'message' => "Invalid Request",
+                    'errors' => $validator->errors()
+                ], 404);
+            }
+
+            $gallery = Gallery::find($request->id);
+            $gallery->alt = $request->alt;
+            $gallery->title = $request->title;
+            $gallery->description = $request->description;
+
+            if ($request->hasFile('image')) {
+                $this->fileService->deleteFile($gallery->image, $this->folderName);
+                $uploadedPath = $this->fileService->uploadFile($request->file('image'), $this->folderName);
+                $gallery->image = $uploadedPath;
+            }
+
+            $gallery->save();
+
+            return response([
+                'message' => 'Gallery Updated Successfully',
+                'data' => $gallery,
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response([
+                'status' => false,
+                'error' => $th->getMessage(), // Include the error message
+                'trace' => config('app.debug') ? $th->getTrace() : null, // Include trace only in debug mode
+            ], 500);
+        }
+    }
+
     public function deleteGallery(Request $request)
     {
         try {

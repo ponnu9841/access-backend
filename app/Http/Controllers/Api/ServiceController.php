@@ -92,6 +92,50 @@ class ServiceController extends Controller
         }
     }
 
+    public function updateService(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'id' => 'required|string',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+                'title' => 'string',
+                'alt' => 'string',
+                'short_description' => 'string',
+                'long_description' => 'string',
+            ]);
+            if (!$validator->passes()) {
+                return response([
+                    'message' => 'Invalid Request',
+                    'errors' => $validator->errors()
+                ], 404);
+            }
+            $service = Service::find($request->id);
+            $service->title = $request->title;
+            $service->alt = $request->alt;
+            $service->short_description = htmlspecialchars($request->shortDescription, ENT_QUOTES);
+            $service->long_description = htmlspecialchars($request->longDescription, ENT_QUOTES);
+
+            if ($request->hasFile('image')) {
+                $this->fileService->deleteFile($service->image, $this->folderName);
+                $uploadedPath = $this->fileService->uploadFile($request->file('image'), $this->folderName);
+                $service->image = $uploadedPath;
+            }
+
+            $service->update();
+
+            return response([
+                'message' => 'Partner Added Successfully',
+                'data' => $service,
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response([
+                'status' => false,
+                'message' => $th
+            ], 500);
+        }
+    }
+
     public function deleteService(Request $request)
     {
         try {

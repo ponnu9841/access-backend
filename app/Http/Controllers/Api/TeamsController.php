@@ -22,6 +22,10 @@ class TeamsController extends Controller
     public function getTeams()
     {
         $teams = Team::orderBy('created_at', 'desc')->get();
+        $teams->transform(function ($team) {
+            $team->designation = htmlspecialchars_decode($team->designation, ENT_QUOTES);
+            return $team;
+        });
         
         return response([
             'data' => $teams
@@ -56,6 +60,48 @@ class TeamsController extends Controller
 
             return response([
                 'message' => 'Team Member Added Successfully',
+                'data' => $team,
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response([
+                'status' => false,
+                'message' => $th
+            ], 500);
+        }
+    }
+
+    public function updateTeam(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'id' => 'required|string',
+                'name' => 'required|string|min:3',
+                'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+                'designation' => 'string',
+            ]);
+            if (!$validator->passes()) {
+                return response([
+                    'message' => 'Invalid Request',
+                    'errors' => $validator->errors()
+                ], 404);
+            }
+            $team = Team::find($request->id);
+            $team->name = $request->name;
+            $team->alt = $request->alt;
+            $team->designation = $request->designation;
+            $team->linkedin_profile = $request->linkedInProfile;
+
+            if ($request->hasFile('image')) {
+                $this->fileService->deleteFile($team->image, $this->folderName);
+                $uploadedPath = $this->fileService->uploadFile($request->file('image'), $this->folderName);
+                $team->image = $uploadedPath;
+            }
+
+            $team->save();
+
+            return response([
+                'message' => 'Team Member Updated Successfully',
                 'data' => $team,
             ]);
         } catch (\Throwable $th) {

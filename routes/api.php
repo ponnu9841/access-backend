@@ -24,26 +24,32 @@ use Illuminate\Support\Facades\Route;
 //admin routes
 Route::middleware('admin')->group(function () {
     Route::post('/partner', [PartnerController::class, 'createPartner']);
+    Route::put('/partner', [PartnerController::class, 'updatePartner']);
     Route::delete('/partner', [PartnerController::class, 'deletePartner']);
 
     //service
     Route::post('/service', [ServiceController::class, 'createService']);
+    Route::put('/service', [ServiceController::class, 'updateService']);
     Route::delete('/service', [ServiceController::class, 'deleteService']);
 
     //testimonial
     Route::post('/testimonial', [TestimonialController::class, 'createTestimonial']);
+    Route::put('/testimonial', [TestimonialController::class, 'updateTestimonial']);
     Route::delete('/testimonial', [TestimonialController::class, 'deleteTestimonial']);
 
     //gallery
     Route::post('/gallery', [GalleryController::class, 'createGallery']);
+    Route::put('/gallery', [GalleryController::class, 'updateGallery']);
     Route::delete('/gallery', [GalleryController::class, 'deleteGallery']);
 
     //teams
     Route::post('/teams', [TeamsController::class, 'createTeam']);
+    Route::put('/teams', [TeamsController::class, 'updateTeam']);
     Route::delete('/teams', [TeamsController::class, 'deleteTeam']);
 
     //banner
     Route::post('/banner', [BannerController::class, 'createBanner']);
+    Route::put('/banner', [BannerController::class, 'updateBanner']);
     Route::delete('/banner', [BannerController::class, 'deleteBanner']);
 
     //contact
