@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AboutController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GalleryController;
 use App\Http\Controllers\Api\PartnerController;
@@ -55,6 +56,10 @@ Route::middleware('admin')->group(function () {
     //contact
     Route::post('/contact', [ContactController::class, 'createContact']);
     Route::put('/contact', [ContactController::class, 'updateContact']);
+
+    //about
+    Route::post('/about', [AboutController::class, 'createAbout']);
+    Route::put('/about', [AboutController::class, 'updateAbout']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -69,3 +74,4 @@ Route::get('/gallery', [GalleryController::class, 'getGallery']);
 Route::get('/teams', [TeamsController::class, 'getTeams']);
 Route::get('/banner', [BannerController::class, 'getBanner']);
 Route::get('/contact', [ContactController::class, 'getContact']);
+Route::get('/about', [AboutController::class, 'getAbout']);
