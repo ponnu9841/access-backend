@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\HeadingsController;
+use App\Http\Controllers\Api\PageBannerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -65,6 +66,10 @@ Route::middleware('admin')->group(function () {
     //heading
     Route::post('/heading', [HeadingsController::class, 'createHeading']);
     Route::put('/heading', [HeadingsController::class, 'updateHeading']);
+
+    //pageBanner
+    Route::post('/pagesBanner', [PageBannerController::class, 'createBanner']);
+    Route::put('/pagesBanner', [PageBannerController::class, 'updateBanner']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -80,4 +85,5 @@ Route::get('/teams', [TeamsController::class, 'getTeams']);
 Route::get('/banner', [BannerController::class, 'getBanner']);
 Route::get('/contact', [ContactController::class, 'getContact']);
 Route::get('/about', [AboutController::class, 'getAbout']);
-Route::get('/heading', [HeadingsController::class, 'getAbout']);
+Route::get('/heading', [HeadingsController::class, 'getHeadings']);
+Route::get('/pagesBanner', [PageBannerController::class, 'getBanner']);

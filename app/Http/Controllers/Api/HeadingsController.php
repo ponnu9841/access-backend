@@ -14,16 +14,16 @@ class HeadingsController extends Controller
         $this->middleware('auth:api', ['except' => ['getHeadings']]);
     }
     public function getHeadings(){
-        $heading = Heading::orderBy('created_at', 'desc')->first();
+        $headings = Heading::orderBy('created_at', 'desc')->get();
 
         return response([
-            'data' => $heading
+            'data' => $headings
         ]);
     }
     public function createHeading(Request $request){
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
-            'description' => 'string',
+            'description' => 'nullable|string',
             'section' => 'required|string'
             
         ]);
@@ -48,7 +48,7 @@ class HeadingsController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => 'required|string',
             'title' => 'required|string',
-            'description' => 'string',
+            'description' => 'nullable|string',
             'section' => 'required|string'
             
         ]);
