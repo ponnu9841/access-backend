@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\HeadingsController;
 use App\Http\Controllers\Api\PageBannerController;
+use App\Http\Controllers\Api\SeoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,6 +71,10 @@ Route::middleware('admin')->group(function () {
     //pageBanner
     Route::post('/pagesBanner', [PageBannerController::class, 'createBanner']);
     Route::put('/pagesBanner', [PageBannerController::class, 'updateBanner']);
+
+    //meta tags
+    Route::post('/seoTags', [SeoController::class, 'createSeoTags']);
+    Route::put('/seoTags', [SeoController::class, 'updateSeoTags']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -87,3 +92,4 @@ Route::get('/contact', [ContactController::class, 'getContact']);
 Route::get('/about', [AboutController::class, 'getAbout']);
 Route::get('/heading', [HeadingsController::class, 'getHeadings']);
 Route::get('/pagesBanner', [PageBannerController::class, 'getBanner']);
+Route::get('/seoTags', [SeoController::class, 'getTags']);
