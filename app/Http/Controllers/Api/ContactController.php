@@ -28,6 +28,7 @@ class ContactController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'location' => 'required|string',
+                'map' => 'required|string',
                 'contactOne' => 'required|string',
                 'contactTwo' => 'nullable|string',
                 'emailOne' => 'required|string',
@@ -45,6 +46,7 @@ class ContactController extends Controller
             $contact->contactno_two = $request->contactTwo;
             $contact->email_one = $request->emailOne;
             $contact->email_two = $request->emailTwo;
+            $contact->map = $request->map;
 
             $contact->save();
 
@@ -66,6 +68,7 @@ class ContactController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => 'required|string',
             'location' => 'required|string',
+            'map' => 'required|string',
             'contactOne' => 'required|string',
             'contactTwo' => 'nullable|string',
             'emailOne' => 'required|string',
@@ -85,6 +88,7 @@ class ContactController extends Controller
             $contact->contactno_two = $request->contactTwo;
             $contact->email_one = $request->emailOne;
             $contact->email_two = $request->emailTwo;
+            $contact->map = $request->map;
 
             $contact->save();
 

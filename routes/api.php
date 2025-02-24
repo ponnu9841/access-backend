@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\TeamsController;
 use App\Http\Controllers\Api\TestimonialController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\HeadingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,6 +61,10 @@ Route::middleware('admin')->group(function () {
     //about
     Route::post('/about', [AboutController::class, 'createAbout']);
     Route::put('/about', [AboutController::class, 'updateAbout']);
+
+    //heading
+    Route::post('/heading', [HeadingsController::class, 'createHeading']);
+    Route::put('/heading', [HeadingsController::class, 'updateHeading']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -75,3 +80,4 @@ Route::get('/teams', [TeamsController::class, 'getTeams']);
 Route::get('/banner', [BannerController::class, 'getBanner']);
 Route::get('/contact', [ContactController::class, 'getContact']);
 Route::get('/about', [AboutController::class, 'getAbout']);
+Route::get('/heading', [HeadingsController::class, 'getAbout']);
