@@ -39,8 +39,8 @@ class AboutController extends Controller
                 'subTitle' => 'string',
                 'imageOne' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
                 'imageTwo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
-                'imageOneAlt' => 'string',
-                'imageTwoAlt' => 'string',
+                'imageOneAlt' => 'nullable|string',
+                'imageTwoAlt' => 'nullable|string',
                 'shortDescription' => 'required|string',
                 'longDescription' => 'string',
             ]);
@@ -87,7 +87,7 @@ class AboutController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
             'subTitle' => 'required|string',
-            'alt' => 'string',
+            'alt' => 'nullable|string',
             'shortDescription' => 'required|string',
             'longDescription' => 'string',
         ]);

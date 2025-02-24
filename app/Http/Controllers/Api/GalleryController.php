@@ -81,8 +81,8 @@ class GalleryController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
-                'alt' => 'string',
-                'title' => 'string',
+                'alt' => 'nullable|string',
+                'title' => 'nullable|string',
                 'description' => 'string',
             ]);
 
