@@ -20,7 +20,7 @@ class SeoController extends Controller
             'data' => $seoTags,
         ]);
     }
-    public function createSeoTags(Request $request){
+    public function createSeoTag(Request $request){
         $validator = Validator::make($request->all(), [
             'title' => 'required|string',
             'description' => 'required|string',
@@ -43,7 +43,7 @@ class SeoController extends Controller
             'data' => $seo
         ]);
     }
-    public function updateSeoTags(Request $request){
+    public function updateSeoTag(Request $request){
         $validator = Validator::make($request->all(), [
             'id' => 'required|string',
             'title' => 'required|string',

@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\HeadingsController;
 use App\Http\Controllers\Api\PageBannerController;
+use App\Http\Controllers\Api\PolicyController;
 use App\Http\Controllers\Api\SeoController;
 use Illuminate\Support\Facades\Route;
 
@@ -73,8 +74,12 @@ Route::middleware('admin')->group(function () {
     Route::put('/pagesBanner', [PageBannerController::class, 'updateBanner']);
 
     //meta tags
-    Route::post('/seoTags', [SeoController::class, 'createSeoTags']);
-    Route::put('/seoTags', [SeoController::class, 'updateSeoTags']);
+    Route::post('/seoTags', [SeoController::class, 'createSeoTag']);
+    Route::put('/seoTags', [SeoController::class, 'updateSeoTag']);
+
+    //policies
+    Route::post('/policies', [PolicyController::class, 'createPolicy']);
+    Route::put('/policies', [PolicyController::class, 'updatePolicy']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -93,3 +98,4 @@ Route::get('/about', [AboutController::class, 'getAbout']);
 Route::get('/heading', [HeadingsController::class, 'getHeadings']);
 Route::get('/pagesBanner', [PageBannerController::class, 'getBanner']);
 Route::get('/seoTags', [SeoController::class, 'getTags']);
+Route::get('/policies', [PolicyController::class, 'getPolicies']);
